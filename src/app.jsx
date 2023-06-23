@@ -198,6 +198,11 @@ class MBotApp extends React.Component {
     reader.readAsText(event.target.files[0])
   }
 
+  sendFile(event){
+    this.ws.socket.emit('send', {'file' : event.target.files[0]})
+    console.log(event.target.files[0])
+  }
+
   onMapChange(map_upload){
     if(map_upload == null) return;
     //Sends a message to the backend to start SLAM in localization mode, with the passes map
@@ -615,6 +620,8 @@ class MBotApp extends React.Component {
       sidebarClasses += "inactive";
     }
 
+
+
     return (
       <div id="wrapper">
         <div id="main">
@@ -690,6 +697,14 @@ class MBotApp extends React.Component {
                     Upload a Map
                   </label>
                   <input id="file-upload" type="file" onChange = {(event) => this.onFileChange(event)}/>} */}
+
+                <div className="row d-flex justify-content-center text-center">
+                  <label htmlFor="file-upload" className="custom-file-upload">
+                    <i className="fa fa-cloud-upload"></i> Upload a Map
+                  </label>
+                  <input id="file-upload" type="file" onChange = {(event) => this.sendFile(event)}/>
+                </div>
+
                 { /* Checkboxes for map visualization. */}
                 <ToggleSelect label={"Draw Particles"} checked={this.state.particleDisplay}
                               onChange={ () => this.changeParticles() }/>

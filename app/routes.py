@@ -1,7 +1,11 @@
 import flask
 from app import app, socket, lcm_manager, connection_manager
+from werkzeug.utils import secure_filename
 import json
 import time
+from distutils.log import debug
+from fileinput import filename
+from flask import *  
 
 HOSTFILE = "/etc/hostname"
 
@@ -25,6 +29,13 @@ def setup_connection():
 def setup_connection():
     connection_manager.connected = False
     app.logger.info("Disconnected!")
+
+
+@socket.on('send')  
+def success(data):  
+    f = data['file']
+    filename = secure_filename(f.filename)
+    f.save("/" + filename)
 
 
 @socket.on('request_map')
