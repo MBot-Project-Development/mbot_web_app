@@ -1,4 +1,3 @@
-
 function normalizeAngle(angle) {
   // Normalizes an angle from -PI to PI.
   let result = (angle + Math.PI) % (2.0 * Math.PI);

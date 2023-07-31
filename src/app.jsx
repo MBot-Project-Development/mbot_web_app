@@ -72,23 +72,7 @@ function ToggleSelect(props) {
   if (props.small) sizeCls = " small";
 
   return (
-    // <div className=""></div>
     <div className="my-4 text-left">
-      {/* <div className="row labels">
-        <div className="col-8">
-          <span>{props.label}</span>
-        </div>
-        <div className="col-4 text-right">
-          <label className={"switch" + sizeCls}>
-            <input type="checkbox" className="mx-2" checked={props.checked}
-                  onChange={() => props.onChange()}/>
-            <span className={"slider round" + sizeCls}></span>
-          </label>
-        </div>
-      </div> */}
-      {/* <div className="explain">
-        {props.explain}
-      </div> */}
       <div className="row imgBox">
         <div className="col-7">
           <span>{props.label}</span>
@@ -109,8 +93,6 @@ function ToggleSelect(props) {
           </label>
         </div>
       </div>
-
-
     </div>
   );
 }
@@ -706,9 +688,19 @@ class MBotApp extends React.Component {
                                     explain={"This will start to map out an area around the robot. You can also upload a previous map, or download the map you see the robot has currently created"}
                                     onChange={ () => this.onMappingMode() } small={true} />
                       <div className="button-wrapper-col">
+                        
                         <button className={"button" + (this.state.slamMode !== config.slam_mode.FULL_SLAM ? " inactive" : "")}
                                 onClick={() => this.onResetMap()}>Reset Map</button>
+                       
                         <button className="button" onClick={() => this.saveMap()}>Download Map</button>
+                        
+                        <div className="row d-flex justify-content-center text-center">
+                          <label htmlFor="file-upload" className="custom-file-upload">
+                            <i className="fa fa-cloud-upload"></i> Upload a Map
+                          </label>
+                          <input id="file-upload" type="file" onChange = {(event) => this.sendFile(event)}/>
+                        </div>
+
                       </div>
                     </div>
                   }
@@ -716,25 +708,20 @@ class MBotApp extends React.Component {
                   {/* TODO: Implement intial pose branch into code*/}
                   {/* {<button className="button start-color2" onClick={() => this.onSetPose()}>Set Inital Pose</button>} */}
                   
-                {/* {<label htmlFor="file-upload" className="button upload-color mb-3">
-                    Upload a Map
-                  </label>
-                  <input id="file-upload" type="file" onChange = {(event) => this.onFileChange(event)}/>} */}
-                { /* Checkboxes for map visualization. */}
-                <div className="box">
-                  <ToggleSelect label={"Draw Particles"} checked={this.state.particleDisplay}
-                                explain={"This will show all the positions the robot thinks it might be at"}
-                                onChange={ () => this.changeParticles() }/>
-                </div>
-                <div className="box">
+
+
+                <ToggleSelect label={"Draw Particles"} checked={this.state.particleDisplay}
+                              explain={"This will show all the positions the robot thinks it might be at"}
+                              onChange={ () => this.changeParticles() }/>
+                
                 <ToggleSelect label={"Draw Robot"} checked={this.state.robotDisplay}
                                 explain={"This will display the robot on the map"}
                                 onChange={ () => this.changeRobot() }/>
-                </div>                     
 
                 {/* // Remove temporarily since backend doesn't publish this. */}
                 {/* <ToggleSelect label={"Draw Costmap"} checked={this.state.costmapDisplay}
                                  onChange={ () => this.changeCostMap() }/> */}
+                
                 <ToggleSelect label={"Draw Lasers"} checked={this.state.laserDisplay}
                               explain={"This will display what the lidar rays are capturing currently"}
                               onChange={ () => this.changeLasers() }/>
@@ -743,9 +730,11 @@ class MBotApp extends React.Component {
                 <ToggleSelect label={"Drive Mode"} checked={this.state.drivingMode}
                               explain={"To drive the robot with your keyboard, use A,D for left & right, W,S for forward & backward, and Q,E to rotate. Additionally, you can click and drag the joystick and press the turn buttons to move the robot"}
                               onChange={ () => this.onDrivingMode() }/>
+                
                 {this.state.drivingMode &&
                   <DriveControlPanel ws={this.ws} drivingMode={this.state.drivingMode} />
                 }
+
             </div>
           </div>
         </div>

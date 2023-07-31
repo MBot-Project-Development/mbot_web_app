@@ -43,10 +43,14 @@ def request_map_update(data):
 def plan_cb(data):
     goal = data["goal"]
     plan = data["plan"]
-
     lcm_manager.publish_plan_data(goal, plan)
-
     app.logger.info(data)
+
+
+@socket.on('file_upload')
+def upload_file(file_data):
+    with open('/home/pi/' + file_data['filename'], 'wb') as f:
+        f.write(file_data['data'])
 
 
 @socket.on('reset')
