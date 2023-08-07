@@ -51,7 +51,7 @@ def plan_cb(data):
 def upload_file(file_data):
     with open('/home/pi/' + file_data['filename'], 'wb') as f:
         f.write(file_data['data'])
-
+    print("sent file over")
 
 @socket.on('reset')
 def reset_slam(data):
