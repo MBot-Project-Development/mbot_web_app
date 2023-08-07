@@ -49,7 +49,7 @@ def plan_cb(data):
 
 @socket.on('file_upload')
 def upload_file(file_data):
-    with open('/home/mbot/' + file_data['filename'], 'wb') as f:
+    with open('/media/mbot/RPI-RP2/' + file_data['filename'], 'wb') as f:
         f.write(file_data['data'])
     print("sent file over")
 
