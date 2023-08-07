@@ -286,6 +286,25 @@ class MBotApp extends React.Component {
     }
   }
 
+  sendFile(event){
+    const file = event.target.files[0];
+    console.log(file)
+    if (!file) {
+        alert('Please select a file.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = () => {
+        const fileData = {
+            filename: file.name,
+            data: new Uint8Array(reader.result)
+        };
+        this.ws.socket.emit('file_upload', fileData);
+    };
+  }
+
   onDrivingMode() {
     this.setState({drivingMode: !this.state.drivingMode});
   }
